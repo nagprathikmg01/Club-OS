@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Member Search | LabOps Observatory</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#0053db",
+                    "inverse-on-surface": "#eff1f3",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "background": "#f7f9fb",
+                    "on-secondary-container": "#fffbff",
+                    "surface-container-high": "#e6e8ea",
+                    "on-secondary-fixed": "#0f0069",
+                    "on-surface-variant": "#434655",
+                    "surface-dim": "#d8dadc",
+                    "surface-container": "#eceef0",
+                    "on-tertiary-fixed-variant": "#6e3900",
+                    "primary": "#004ac6",
+                    "primary-fixed": "#dbe1ff",
+                    "error": "#ba1a1a",
+                    "on-error-container": "#93000a",
+                    "surface": "#f7f9fb",
+                    "primary-container": "#2563eb",
+                    "on-background": "#191c1e",
+                    "secondary-container": "#645efb",
+                    "on-primary-fixed": "#00174b",
+                    "tertiary-container": "#a65900",
+                    "on-tertiary-container": "#ffede1",
+                    "on-primary-container": "#eeefff",
+                    "on-surface": "#191c1e",
+                    "tertiary-fixed": "#ffdcc3",
+                    "surface-bright": "#f7f9fb",
+                    "inverse-surface": "#2d3133",
+                    "inverse-primary": "#b4c5ff",
+                    "on-primary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "secondary-fixed": "#e2dfff",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-low": "#f2f4f6",
+                    "outline-variant": "#c3c6d7",
+                    "outline": "#737686",
+                    "secondary": "#4b41e1",
+                    "tertiary": "#824500",
+                    "error-container": "#ffdad6",
+                    "surface-variant": "#e0e3e5",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-fixed": "#2f1500",
+                    "secondary-fixed-dim": "#c3c0ff",
+                    "on-secondary-fixed-variant": "#3323cc",
+                    "tertiary-fixed-dim": "#ffb77d"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .solar-flare {
+            background: linear-gradient(135deg, #004ac6 0%, #2563eb 100%);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            border: 0.5px solid rgba(195, 198, 215, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-slate-50/70 dark:bg-slate-900/70 backdrop-blur-xl border-b border-slate-200/20 dark:border-slate-800/20 flex justify-between items-center px-6 h-14 w-full">
+<div class="flex items-center gap-8">
+<span class="text-lg font-bold tracking-tighter text-blue-800 dark:text-blue-300">LabOps</span>
+<div class="hidden md:flex items-center space-x-6 text-sm tracking-wide font-medium">
+<a class="text-slate-500 hover:bg-slate-200/50 transition-colors px-2 py-1" href="#">Dashboard</a>
+<a class="text-slate-500 hover:bg-slate-200/50 transition-colors px-2 py-1" href="#">Inventory</a>
+<a class="text-blue-700 font-bold border-b-2 border-blue-600 px-2 py-1" href="#">Directory</a>
+<a class="text-slate-500 hover:bg-slate-200/50 transition-colors px-2 py-1" href="#">Analytics</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-500 cursor-pointer p-2 hover:bg-slate-200/50 transition-colors rounded-full">notifications</span>
+<span class="material-symbols-outlined text-slate-500 cursor-pointer p-2 hover:bg-slate-200/50 transition-colors rounded-full">settings</span>
+<span class="material-symbols-outlined text-slate-500 cursor-pointer p-2 hover:bg-slate-200/50 transition-colors rounded-full">help_outline</span>
+</div>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high border border-outline-variant/20">
+<img class="w-full h-full object-cover" data-alt="professional portrait of a researcher in a clean minimal environment with soft daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB15wV1B_-nJ2IJbQv6f-QURJA2lVF7SZ6AdeB9zRpSXbujT1Z6Wv5VVIf19vkBXHYHN_7_Wyfo9VXF7-D45OjU39LR8QiOPsj_gum_MR8qjs6Jy7E8J2BKS2xoTJFXxU1DewH8SM2nrZfD3gvCY_SdLSo9sodgBDQL0QDM95KU9EOSP3zoT-AcXGbzdpHFRwfp4bnACN0r_Mi3zrLgc9M4LWtijNe2nkhytqo4ZCstb_jZVt656w3MqKvOIc1EjvcZfZXC5WEI6Xou"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="hidden md:flex fixed left-0 top-0 h-full w-64 z-40 bg-slate-50/60 dark:bg-slate-950/60 backdrop-blur-2xl flex flex-col pt-20 pb-6 px-4 space-y-2">
+<div class="px-4 mb-6">
+<h2 class="text-blue-900 dark:text-blue-100 font-black text-sm uppercase tracking-widest">Observatory Alpha</h2>
+<p class="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em] mt-1">High-Density Lab</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-200/30 transition-all duration-200 rounded-md" href="#">
+<span class="material-symbols-outlined text-xl">dashboard</span>
+<span class="font-['Inter'] text-xs font-bold uppercase tracking-widest">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-200/30 transition-all duration-200 rounded-md" href="#">
+<span class="material-symbols-outlined text-xl">biotech</span>
+<span class="font-['Inter'] text-xs font-bold uppercase tracking-widest">Inventory</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 text-blue-700 bg-blue-50/50 dark:bg-blue-900/20 transition-all duration-200 rounded-md" href="#">
+<span class="material-symbols-outlined text-xl">group</span>
+<span class="font-['Inter'] text-xs font-bold uppercase tracking-widest">Directory</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-200/30 transition-all duration-200 rounded-md" href="#">
+<span class="material-symbols-outlined text-xl">insights</span>
+<span class="font-['Inter'] text-xs font-bold uppercase tracking-widest">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:bg-slate-200/30 transition-all duration-200 rounded-md" href="#">
+<span class="material-symbols-outlined text-xl">terminal</span>
+<span class="font-['Inter'] text-xs font-bold uppercase tracking-widest">Logs</span>
+</a>
+</nav>
+<div class="pt-4 border-t border-slate-200/10 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-slate-900 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-lg">support_agent</span>
+<span class="font-['Inter'] text-[10px] font-bold uppercase tracking-widest">Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-slate-900 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-lg">manage_accounts</span>
+<span class="font-['Inter'] text-[10px] font-bold uppercase tracking-widest">Account</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="md:pl-64 pt-14 min-h-screen">
+<div class="max-w-[1400px] mx-auto p-8 md:p-12">
+<!-- Command Module / Header Section -->
+<div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h1 class="text-[3.5rem] font-semibold leading-tight tracking-[-0.02em] text-on-surface">14 Members Found</h1>
+<p class="text-headline-sm uppercase tracking-[0.1em] text-slate-400 font-bold mt-2">Active Directory Search Results</p>
+</div>
+<div class="flex items-center gap-3 glass-panel px-4 py-2 rounded-xl">
+<span class="material-symbols-outlined text-primary">filter_list</span>
+<span class="text-label-sm font-bold uppercase tracking-wider text-on-surface-variant">Filter By: All Roles</span>
+<span class="material-symbols-outlined text-slate-400 text-sm">expand_more</span>
+</div>
+</div>
+<!-- Bento Grid of Results -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<!-- Member Card 1 -->
+<div class="group bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-6 transition-all duration-300 hover:bg-white hover:shadow-[0px_20px_40px_rgba(0,74,198,0.05)] cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="relative w-12 h-12 rounded-full overflow-hidden border border-outline-variant/30 transition-transform group-hover:scale-105 duration-300">
+<img class="w-full h-full object-cover" data-alt="professional male scientist with glasses in a modern lab setting with soft cool lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5PMDGbx4HqCBWSeysOXt4XkXmOew3OmCwb0a8uFneZ6Wy01Lso_-VIhbBHGnPV2T9e4XiQHHAuEE86ufMtm6W6-fvL9-tygTSSd1ndw6whgjO_uORdURnpP1BMAD34uTetMqykZcdN6TUvPCQHjT8fSzHc2bBeiE4ITVCI-xqm7TSeDMomoVIwRmGCntBOo9DDE8Kn_hloEnJLe0Lpcj1n5uAV_lkuyocRCrxWIPDB5pm1cqOh7Tbb-k1OX6zyGMoNrvNl7GTUoxE"/>
+</div>
+<div class="flex-1">
+<h3 class="text-title-md font-bold text-on-surface group-hover:text-primary transition-colors">Dr. Elias Vance</h3>
+<p class="text-label-sm font-bold uppercase tracking-widest text-slate-400 mt-1">Lead Architect</p>
+</div>
+</div>
+<div class="mt-6 flex items-center justify-between">
+<span class="text-[10px] font-bold uppercase tracking-wider text-slate-300">Joined Jan 2024</span>
+<span class="px-3 py-1 bg-primary-fixed text-[10px] font-bold uppercase tracking-widest text-on-primary-fixed-variant rounded-full">Active</span>
+</div>
+</div>
+<!-- Member Card 2 -->
+<div class="group bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-6 transition-all duration-300 hover:bg-white hover:shadow-[0px_20px_40px_rgba(0,74,198,0.05)] cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="relative w-12 h-12 rounded-full overflow-hidden border border-outline-variant/30 transition-transform group-hover:scale-105 duration-300">
+<img class="w-full h-full object-cover" data-alt="portrait of a confident woman in business casual attire with natural office lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYdLCOJdc0nNlo-krhwhMT0Gve95lHx1Xj5mUYEPoV5ioHDwOeaUQxO4ptC85WTgm6ura-0pRLJbSMuU7Ltc_OhTIkwtMILoKEE6upQQ9upcYjgn02Z0vwsuFDggJ_WXGVQIWnU4ZoRvG5Zx1lHOHp0B9-G_jDT9Ih7nixIsaQT61XxJQ_eyWEfnWKP6jf9NMZxg27fufFSxxYEuqS_X2EBkLiSVeGTMWjRr4g3bTs7vhS6YbAByviSjUTFbFPdKtP_mRyisrbriSK"/>
+</div>
+<div class="flex-1">
+<h3 class="text-title-md font-bold text-on-surface group-hover:text-primary transition-colors">Sarah K. Miller</h3>
+<p class="text-label-sm font-bold uppercase tracking-widest text-slate-400 mt-1">Sr. Lab Manager</p>
+</div>
+</div>
+<div class="mt-6 flex items-center justify-between">
+<span class="text-[10px] font-bold uppercase tracking-wider text-slate-300">Joined Mar 2023</span>
+<span class="px-3 py-1 bg-tertiary-fixed text-[10px] font-bold uppercase tracking-widest text-on-tertiary-fixed-variant rounded-full">On Leave</span>
+</div>
+</div>
+<!-- Member Card 3 -->
+<div class="group bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-6 transition-all duration-300 hover:bg-white hover:shadow-[0px_20px_40px_rgba(0,74,198,0.05)] cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="relative w-12 h-12 rounded-full overflow-hidden border border-outline-variant/30 transition-transform group-hover:scale-105 duration-300">
+<img class="w-full h-full object-cover" data-alt="man with thoughtful expression in high-tech office environment soft blue ambient light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrElBoMqb-iRmTCEDxglePW7JUPx9qGgYgbOCF4nhy3c3SaDh00Q64j60E25DFmgXQGZ6TSYly6-AU3agOfTbqqFj24cl3nlVydhqFNktgWhWl1r1Z-4gSxglMw73ZdFoptwprtNvNUzU87dTWN9k9Y6H7N4ZpKqa1ONzSdTONjILCEhYLGFrMBqSc0f5ACd84YciUsxTYNh-iW8kj01_K512f0NZ4KYJXIOMZd0SLQOyCu7axnxwh8Jut2bgJwHBcPw4yfOyjZ2fX"/>
+</div>
+<div class="flex-1">
+<h3 class="text-title-md font-bold text-on-surface group-hover:text-primary transition-colors">Julian Thorne</h3>
+<p class="text-label-sm font-bold uppercase tracking-widest text-slate-400 mt-1">Data Scientist</p>
+</div>
+</div>
+<div class="mt-6 flex items-center justify-between">
+<span class="text-[10px] font-bold uppercase tracking-wider text-slate-300">Joined Nov 2023</span>
+<span class="px-3 py-1 bg-primary-fixed text-[10px] font-bold uppercase tracking-widest text-on-primary-fixed-variant rounded-full">Active</span>
+</div>
+</div>
+<!-- Member Card 4 -->
+<div class="group bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-6 transition-all duration-300 hover:bg-white hover:shadow-[0px_20px_40px_rgba(0,74,198,0.05)] cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="relative w-12 h-12 rounded-full overflow-hidden border border-outline-variant/30 transition-transform group-hover:scale-105 duration-300">
+<img class="w-full h-full object-cover" data-alt="woman engineer working in a modern clean space with glass walls and bright lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFm0cWMX3yzaY3LFybpxFIrtbEk5H-KkznUEkTk-exJla1o7AqDtnVo5CQ8rg2nNZQfaXuanniPmE_wTdlAL8os9VtOW0jOZ2ZANk_OlCGThzazykLu2u395BCN5E8w2zAaAFhoOlEqfRce-eWp6kTOzUiCRLpnvh84dfex-wj8eLAqQOrSmNhGQRDeXfu0TGJWudkWL2OAXYWgBtV50oM2XwhjJ6x_kbMWsyFbgVF6ma4DHWV40rCIZNtZqQGsCycoNRDL5lbRLnO"/>
+</div>
+<div class="flex-1">
+<h3 class="text-title-md font-bold text-on-surface group-hover:text-primary transition-colors">Maya Rodriguez</h3>
+<p class="text-label-sm font-bold uppercase tracking-widest text-slate-400 mt-1">Safety Officer</p>
+</div>
+</div>
+<div class="mt-6 flex items-center justify-between">
+<span class="text-[10px] font-bold uppercase tracking-wider text-slate-300">Joined Feb 2024</span>
+<span class="px-3 py-1 bg-primary-fixed text-[10px] font-bold uppercase tracking-widest text-on-primary-fixed-variant rounded-full">Active</span>
+</div>
+</div>
+<!-- Repeat Pattern for Asymmetry / Density -->
+<div class="group bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-6 transition-all duration-300 hover:bg-white hover:shadow-[0px_20px_40px_rgba(0,74,198,0.05)] cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="relative w-12 h-12 rounded-full overflow-hidden border border-outline-variant/30 transition-transform group-hover:scale-105 duration-300">
+<img class="w-full h-full object-cover" data-alt="professional man in smart casual attire in a bright contemporary atrium" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuciTxe-_pbOrAjYQ62gUkO2rderqhkoq9JUQECGFmb-seGfFkBxBk-2et835YQcDjbd2MwfPdKSYkavfYwnr7iFx4dpk349stoA-ySHzpsP7tCpUExd_a0BQGhZsGu5mwna8wG-4iAdNxq1ycsG5r_diqQ78AOZ_m0leYf70XNh_Vu1Rfva798nJHMuSJTCYePgR9R-kaOgZEiMv5sS7KEgKxXrJBiWLHkEh4NXnhq1535WrfF1H-5jPhxG9HWCRngWDYYRRLYW1U"/>
+</div>
+<div class="flex-1">
+<h3 class="text-title-md font-bold text-on-surface group-hover:text-primary transition-colors">Aaron Chen</h3>
+<p class="text-label-sm font-bold uppercase tracking-widest text-slate-400 mt-1">Systems Eng.</p>
+</div>
+</div>
+<div class="mt-6 flex items-center justify-between">
+<span class="text-[10px] font-bold uppercase tracking-wider text-slate-300">Joined Dec 2023</span>
+<span class="px-3 py-1 bg-primary-fixed text-[10px] font-bold uppercase tracking-widest text-on-primary-fixed-variant rounded-full">Active</span>
+</div>
+</div>
+<!-- Featured Search Object (Asymmetric Break) -->
+<div class="group relative md:col-span-2 solar-flare rounded-xl p-8 overflow-hidden transition-all duration-300 hover:shadow-[0px_20px_40px_rgba(0,74,198,0.15)] cursor-pointer">
+<div class="relative z-10 flex flex-col h-full justify-between">
+<div>
+<span class="px-3 py-1 bg-white/20 backdrop-blur-md border border-white/20 text-[10px] font-bold uppercase tracking-widest text-white rounded-full">Featured Profile</span>
+<h3 class="text-[2rem] font-bold text-white mt-4 tracking-tight leading-none">Prof. Henrik Von Stein</h3>
+<p class="text-blue-100 font-medium mt-2">Director of High-Density Simulation Labs</p>
+</div>
+<div class="flex items-center gap-4 mt-8">
+<button class="bg-white text-primary px-6 py-2.5 rounded-md text-xs font-bold uppercase tracking-widest hover:scale-95 transition-transform duration-150">View Full Portfolio</button>
+<span class="text-white/60 text-[10px] font-bold uppercase tracking-widest">34 Peer Reviews</span>
+</div>
+</div>
+<!-- Decorative Element -->
+<div class="absolute -right-12 -bottom-12 w-48 h-48 rounded-full bg-white/10 blur-3xl"></div>
+</div>
+<div class="group bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-6 transition-all duration-300 hover:bg-white hover:shadow-[0px_20px_40px_rgba(0,74,198,0.05)] cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="relative w-12 h-12 rounded-full overflow-hidden border border-outline-variant/30 transition-transform group-hover:scale-105 duration-300">
+<img class="w-full h-full object-cover" data-alt="professional portrait of a woman of color with soft neutral background and elegant lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUJymUlpkqDAK3xkhZ0sJ_eKuo6_71BfRhtoEYq8lW1R5VUcbfVZu9EICNNDfZQ1qNDqB_EYVHA7TSbm_ETwXoWrEoN_13K_81NOMFKwfZBlJsbROl6WWTbHJ_bxHE_APQoJemcbZ4ynxttYWTaLHrhC5XHXEPBCkT9HT1GAP6dg2Whmy6xqXG-v-JvwdcNH4zP9iRoHLdbTb_mVbalWQUVwH0sl95g3TxBHRsTGmH72607btbB_YNyOdp2Z8KiYvOj4WoX8hmn5zl"/>
+</div>
+<div class="flex-1">
+<h3 class="text-title-md font-bold text-on-surface group-hover:text-primary transition-colors">Sasha Grey</h3>
+<p class="text-label-sm font-bold uppercase tracking-widest text-slate-400 mt-1">UX Researcher</p>
+</div>
+</div>
+<div class="mt-6 flex items-center justify-between">
+<span class="text-[10px] font-bold uppercase tracking-wider text-slate-300">Joined Aug 2023</span>
+<span class="px-3 py-1 bg-primary-fixed text-[10px] font-bold uppercase tracking-widest text-on-primary-fixed-variant rounded-full">Active</span>
+</div>
+</div>
+<!-- More cards following the pattern... -->
+<div class="group bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-6 transition-all duration-300 hover:bg-white hover:shadow-[0px_20px_40px_rgba(0,74,198,0.05)] cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="relative w-12 h-12 rounded-full overflow-hidden border border-outline-variant/30 transition-transform group-hover:scale-105 duration-300">
+<img class="w-full h-full object-cover" data-alt="man in executive attire standing in a clean minimalist architectural space" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyIkrIEqlhvGEcGAze0fGDyLRsmPW5TwW403LRi6YHQrMD3urxlEAynRb2CEjSG0XFzoNw0z1TlefpvfUfeti82G04iD6Ib4UAbU5Q9aDACbCIUAD3PSkn0ku1w-6xiaomz15KGvb5T41UJ3AKLN0cDNSjantvMReX4bnB-BXeXWRh2Qp5lTbQP-CDTtZ1wkrvC0277ca1pTaMppcyqpdYUyjufRO2sjEPAbwMuGo4WOEdR-klgh76vuodLQSWBeQ-zVvB5xRhj-ZY"/>
+</div>
+<div class="flex-1">
+<h3 class="text-title-md font-bold text-on-surface group-hover:text-primary transition-colors">Oliver West</h3>
+<p class="text-label-sm font-bold uppercase tracking-widest text-slate-400 mt-1">Logistics Head</p>
+</div>
+</div>
+<div class="mt-6 flex items-center justify-between">
+<span class="text-[10px] font-bold uppercase tracking-wider text-slate-300">Joined Jun 2023</span>
+<span class="px-3 py-1 bg-primary-fixed text-[10px] font-bold uppercase tracking-widest text-on-primary-fixed-variant rounded-full">Active</span>
+</div>
+</div>
+</div>
+<!-- Empty Space for Breathing Room / Load More -->
+<div class="mt-20 flex justify-center">
+<button class="group flex items-center gap-3 px-8 py-3 border border-outline-variant/20 rounded-full hover:bg-white hover:shadow-lg transition-all duration-300">
+<span class="text-xs font-bold uppercase tracking-[0.2em] text-on-surface-variant">Explore Remaining Results</span>
+<span class="material-symbols-outlined text-primary group-hover:translate-y-0.5 transition-transform">expand_more</span>
+</button>
+</div>
+</div>
+</main>
+<!-- FAB Suppression: Not rendered as this is a Search Result context -->
+</body></html>

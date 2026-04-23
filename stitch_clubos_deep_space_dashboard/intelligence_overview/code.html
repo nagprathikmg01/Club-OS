@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-bright": "#f7f9fb",
+                    "on-surface": "#191c1e",
+                    "tertiary-fixed-dim": "#ffb77d",
+                    "on-secondary-fixed-variant": "#3323cc",
+                    "secondary-container": "#645efb",
+                    "primary-fixed": "#dbe1ff",
+                    "surface-container": "#eceef0",
+                    "inverse-primary": "#b4c5ff",
+                    "inverse-surface": "#2d3133",
+                    "surface-variant": "#e0e3e5",
+                    "on-tertiary-container": "#ffede1",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "background": "#f7f9fb",
+                    "secondary-fixed-dim": "#c3c0ff",
+                    "on-error-container": "#93000a",
+                    "secondary": "#4b41e1",
+                    "on-error": "#ffffff",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#d8dadc",
+                    "on-tertiary-fixed-variant": "#6e3900",
+                    "on-background": "#191c1e",
+                    "on-tertiary-fixed": "#2f1500",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "on-primary-container": "#eeefff",
+                    "primary-container": "#2563eb",
+                    "error-container": "#ffdad6",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#eff1f3",
+                    "surface-container-highest": "#e0e3e5",
+                    "secondary-fixed": "#e2dfff",
+                    "tertiary": "#824500",
+                    "surface": "#f7f9fb",
+                    "on-secondary-fixed": "#0f0069",
+                    "outline": "#737686",
+                    "tertiary-container": "#a65900",
+                    "surface-container-high": "#e6e8ea",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "tertiary-fixed": "#ffdcc3",
+                    "on-primary-fixed": "#00174b",
+                    "surface-container-low": "#f2f4f6",
+                    "on-surface-variant": "#434655",
+                    "on-tertiary": "#ffffff",
+                    "surface-tint": "#0053db",
+                    "primary": "#004ac6",
+                    "outline-variant": "#c3c6d7",
+                    "on-secondary-container": "#fffbff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            border: 0.5px solid rgba(195, 198, 215, 0.2);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .solar-flare {
+            background: linear-gradient(135deg, #004ac6 0%, #2563eb 100%);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-slate-50/70 backdrop-blur-xl border-b border-slate-200/20 flex justify-between items-center h-16 px-6 w-full">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-[0.05em] uppercase text-slate-900">Solar Intelligence</span>
+<nav class="hidden md:flex gap-6 font-['Inter'] tracking-tight">
+<a class="text-blue-700 border-b-2 border-blue-600 pb-1" href="#">Overview</a>
+<a class="text-slate-500 hover:text-slate-900 transition-colors duration-200" href="#">Analysis</a>
+<a class="text-slate-500 hover:text-slate-900 transition-colors duration-200" href="#">Reports</a>
+<a class="text-slate-500 hover:text-slate-900 transition-colors duration-200" href="#">Archive</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 rounded-lg transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 rounded-lg transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-slate-200 overflow-hidden ml-2 border border-outline-variant/20">
+<img alt="User profile avatar" data-alt="professional portrait of a high-tech intelligence officer in a clean minimalist environment with soft cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDihGLq6Tpa2_jXEsDzoUTFU9J5gBAh8XB1GalQZIVrmAXfBAJlDHFOV3Ql-4dINSSJtEjZFaVHOyXj4-tG4RgRme7fNTIYxU1ouLm06RrocYOSKJmNRQD4hjt9OBJWwZClLZLHhcB4sVnDPruvI11W3hiy-KN0qSaCKVqsO-4j8J61YdS10_drOCU1LpT_Js7AJkShzYAHQXm0mPCjAqe5zTHwsPPrLc4GIvqiuidSvHnZxZcdqSLpgk47ExVM2YQjK2j0LhpSQr_"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 z-40 bg-slate-50/60 backdrop-blur-2xl border-r border-slate-200/20 flex flex-col p-4 gap-2">
+<div class="mb-6 px-2">
+<div class="flex items-center gap-3 mb-1">
+<div class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></div>
+<span class="text-xs font-bold uppercase tracking-widest text-slate-400">Intelligence</span>
+</div>
+<p class="text-[10px] text-slate-400 uppercase tracking-tighter">Management Module v2.4</p>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 bg-white text-blue-700 shadow-sm rounded-lg font-['Inter'] text-sm font-medium transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Command Center
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 hover:bg-slate-200/30 rounded-lg font-['Inter'] text-sm font-medium transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="sensors">sensors</span>
+                Data Streams
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 hover:bg-slate-200/30 rounded-lg font-['Inter'] text-sm font-medium transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+                Neural Assets
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 hover:bg-slate-200/30 rounded-lg font-['Inter'] text-sm font-medium transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+                Risk Matrix
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 hover:bg-slate-200/30 rounded-lg font-['Inter'] text-sm font-medium transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="tune">tune</span>
+                Settings
+            </a>
+</nav>
+<button class="mt-8 solar-flare text-white px-4 py-3 rounded-lg text-sm font-bold flex items-center justify-center gap-2 shadow-lg shadow-primary/20 hover:opacity-90 active:scale-[0.97] transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+            Deploy New Node
+        </button>
+<div class="mt-auto border-t border-slate-200/20 pt-4">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-400 hover:text-slate-600 transition-colors" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="help">help</span>
+<span class="text-xs font-medium">Documentation</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-400 hover:text-slate-600 transition-colors" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="memory">memory</span>
+<span class="text-xs font-medium">System Health</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-16 min-h-screen bg-surface-bright">
+<div class="p-8 max-w-[1600px] mx-auto">
+<!-- Command Module Header -->
+<div class="mb-10 flex justify-between items-end">
+<div>
+<h1 class="text-[3.5rem] font-semibold leading-tight tracking-[-0.02em] text-on-surface">Intelligence Module</h1>
+<p class="text-on-surface-variant text-lg mt-2">Real-time surveillance and neural resource allocation overview.</p>
+</div>
+<div class="flex gap-4 mb-3">
+<div class="px-4 py-2 glass-card rounded-xl flex items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Live Stream Active</span>
+</div>
+<div class="px-4 py-2 bg-surface-container-low rounded-xl flex items-center gap-3">
+<span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Last Sync: 12ms ago</span>
+</div>
+</div>
+</div>
+<!-- Bento Grid -->
+<div class="grid grid-cols-12 gap-6 items-start">
+<!-- KPI: Threat Analysis Score (Large Square) -->
+<div class="col-span-12 lg:col-span-5 aspect-square lg:aspect-auto h-[500px] glass-card rounded-xl p-8 flex flex-col justify-between group hover:border-primary/30 transition-all duration-300">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-xs font-bold uppercase tracking-widest text-primary mb-1">Threat Analysis Score</h3>
+<p class="text-2xl font-bold text-on-surface">Critical Sector Delta</p>
+</div>
+<div class="p-2 bg-primary/5 rounded-lg">
+<span class="material-symbols-outlined text-primary" data-icon="security">security</span>
+</div>
+</div>
+<div class="relative flex justify-center items-center py-8">
+<!-- Circular Gauge Placeholder -->
+<div class="relative w-64 h-64 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container-high" cx="128" cy="128" fill="transparent" r="110" stroke="currentColor" stroke-width="12"></circle>
+<circle class="text-primary" cx="128" cy="128" fill="transparent" r="110" stroke="currentColor" stroke-dasharray="691" stroke-dashoffset="138" stroke-width="12"></circle>
+</svg>
+<div class="absolute flex flex-col items-center">
+<span class="text-6xl font-bold tracking-tighter">82</span>
+<span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Integrity</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-4">
+<div class="p-4 bg-surface-container-low rounded-lg">
+<span class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Internal</span>
+<span class="text-lg font-bold text-on-surface">14%</span>
+</div>
+<div class="p-4 bg-surface-container-low rounded-lg">
+<span class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">External</span>
+<span class="text-lg font-bold text-on-surface">68%</span>
+</div>
+<div class="p-4 bg-surface-container-low rounded-lg border-l-2 border-primary">
+<span class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Delta</span>
+<span class="text-lg font-bold text-primary">+2.4%</span>
+</div>
+</div>
+</div>
+<!-- KPI: Resource Utilization Trends (Wide Card) -->
+<div class="col-span-12 lg:col-span-7 h-[500px] glass-card rounded-xl p-8 flex flex-col overflow-hidden group hover:border-secondary/30 transition-all duration-300">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h3 class="text-xs font-bold uppercase tracking-widest text-secondary mb-1">Resource Utilization Trends</h3>
+<p class="text-2xl font-bold text-on-surface">Neural Node Throughput</p>
+</div>
+<div class="flex gap-2">
+<button class="px-3 py-1 text-[10px] font-bold rounded-full bg-secondary-fixed text-on-secondary-fixed-variant uppercase tracking-widest">24 Hours</button>
+<button class="px-3 py-1 text-[10px] font-bold rounded-full text-slate-400 hover:bg-slate-100 uppercase tracking-widest">7 Days</button>
+</div>
+</div>
+<div class="flex-grow flex items-end gap-1 px-2 relative">
+<!-- High Density Bar Chart Visualization -->
+<div class="w-full h-[240px] flex items-end gap-[2px]">
+<div class="flex-1 bg-secondary/10 hover:bg-secondary/40 transition-all h-[40%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/10 hover:bg-secondary/40 transition-all h-[45%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/10 hover:bg-secondary/40 transition-all h-[55%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/10 hover:bg-secondary/40 transition-all h-[52%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/10 hover:bg-secondary/40 transition-all h-[60%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/10 hover:bg-secondary/40 transition-all h-[75%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/10 hover:bg-secondary/40 transition-all h-[68%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/10 hover:bg-secondary/40 transition-all h-[80%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/10 hover:bg-secondary/40 transition-all h-[85%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/20 hover:bg-secondary/40 transition-all h-[95%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/20 hover:bg-secondary/40 transition-all h-[92%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/20 hover:bg-secondary/40 transition-all h-[88%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/30 hover:bg-secondary/40 transition-all h-[90%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/30 hover:bg-secondary/40 transition-all h-[70%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/30 hover:bg-secondary/40 transition-all h-[65%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/30 hover:bg-secondary/40 transition-all h-[50%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/30 hover:bg-secondary/40 transition-all h-[55%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/40 hover:bg-secondary/60 transition-all h-[62%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/40 hover:bg-secondary/60 transition-all h-[78%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/40 hover:bg-secondary/60 transition-all h-[85%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/40 hover:bg-secondary/60 transition-all h-[95%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/50 hover:bg-secondary/70 transition-all h-[100%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/50 hover:bg-secondary/70 transition-all h-[95%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/50 hover:bg-secondary/70 transition-all h-[88%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/50 hover:bg-secondary/70 transition-all h-[80%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/50 hover:bg-secondary/70 transition-all h-[75%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/50 hover:bg-secondary/70 transition-all h-[70%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/60 hover:bg-secondary/80 transition-all h-[72%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/60 hover:bg-secondary/80 transition-all h-[80%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/60 hover:bg-secondary/80 transition-all h-[95%] rounded-t-sm"></div>
+</div>
+</div>
+<div class="mt-8 pt-8 border-t border-slate-200/20 flex justify-between">
+<div class="flex gap-12">
+<div>
+<span class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Max Load</span>
+<span class="text-xl font-bold">1.2 TB/s</span>
+</div>
+<div>
+<span class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Efficiency</span>
+<span class="text-xl font-bold">99.4%</span>
+</div>
+</div>
+<div class="flex -space-x-3">
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-100 overflow-hidden">
+<img alt="team" data-alt="close-up of a female analyst looking at a digital monitor in a dark room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgawuIeRprQyRjKheo_q4HfZONSqbREX-AvTWmntImNXSEVCZHhZUtQ6lpl2RwcjHohAetjjOljalZKCJGpw3j-9bUu525fb0XTzpgBUB7VZFc0n3Cqsy6s4iNPsedpKENhdk1cVMhiTf7xW1HtL5GNlxF3q4S7fOxEht2uSONPTiBzK1_B2H07uJJrZLDzeonWUBndqK8uAI9L_rcFt9BwvrQb-ZZ82uPar5QZEY1ivLIHUoyY78FaDEchjGBPzFsO1Jh31F8j4yA"/>
+</div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-100 overflow-hidden">
+<img alt="team" data-alt="professional male executive with glasses looking focused" src="https://lh3.googleusercontent.com/aida-public/AB6AXuApi9kBfEcoXrx-HE-DiAHRihKsLymTeAgrGrqUhXmyvo5AqhvW2_so4aEQ3YFYRlyYO005RWHifYd_qWjU5a1Ui6vL_tBJX46wpngeTawollsW-JSxgm9wraiBsqypSwyfGYOcXbujjDTSwbORLmcDLu8Ict7wWytE30bwkENVe1CItlMAelgiQqNqZC9lDR1jvHKHP34wXabd3Mw7xvzvwwEv8iuPV_uvSCSEC2EWOqRWps5KcfOxBlulsH8mzmPHHksJ9Ba264fk"/>
+</div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-secondary flex items-center justify-center text-[10px] text-white font-bold">+12</div>
+</div>
+</div>
+</div>
+<!-- KPI: Anomaly Detection Rate (Asymmetric/Thin Card) -->
+<div class="col-span-12 md:col-span-8 glass-card rounded-xl p-8 group hover:border-tertiary/30 transition-all duration-300">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h3 class="text-xs font-bold uppercase tracking-widest text-tertiary mb-1">Anomaly Detection Rate</h3>
+<p class="text-2xl font-bold text-on-surface">Deviation Matrix</p>
+</div>
+<span class="material-symbols-outlined text-tertiary text-3xl" data-icon="warning">warning</span>
+</div>
+<div class="flex items-center gap-12">
+<div class="flex-grow">
+<div class="flex justify-between items-end mb-2">
+<span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Active Patterns</span>
+<span class="text-2xl font-bold text-on-surface">0.02%</span>
+</div>
+<div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[12%] rounded-full"></div>
+</div>
+</div>
+<div class="flex-shrink-0 grid grid-cols-2 gap-x-8 gap-y-2">
+<div>
+<span class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">False Pos</span>
+<span class="text-sm font-bold">1.2%</span>
+</div>
+<div>
+<span class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">Uptime</span>
+<span class="text-sm font-bold">99.9%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- KPI: Neural Asset Health (Status Tile) -->
+<div class="col-span-12 md:col-span-4 glass-card rounded-xl p-8 bg-surface-container-lowest border-primary/20 shadow-[0px_20px_40px_rgba(0,74,198,0.05)] transition-all duration-300">
+<h3 class="text-xs font-bold uppercase tracking-widest text-primary mb-4">Neural Asset Health</h3>
+<div class="flex items-center gap-6">
+<div class="relative">
+<div class="w-16 h-16 rounded-full solar-flare flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-3xl" data-icon="psychology">psychology</span>
+</div>
+<div class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-white border-2 border-primary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[14px]" data-icon="check" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+<div>
+<span class="block text-3xl font-bold tracking-tight">Optimal</span>
+<span class="text-xs font-medium text-slate-400">All 128 nodes operational</span>
+</div>
+</div>
+</div>
+<!-- Bottom Data Object: Event Log (High Density List) -->
+<div class="col-span-12 glass-card rounded-xl overflow-hidden mt-2">
+<div class="px-8 py-5 border-b border-slate-200/20 flex justify-between items-center bg-white/40">
+<h3 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">System Intelligence Log</h3>
+<div class="flex gap-4">
+<span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Filter by: Node ID</span>
+<span class="material-symbols-outlined text-sm text-slate-400" data-icon="filter_list">filter_list</span>
+</div>
+</div>
+<div class="p-0">
+<table class="w-full text-left">
+<thead>
+<tr class="border-b border-slate-100">
+<th class="px-8 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Timestamp</th>
+<th class="px-8 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Event ID</th>
+<th class="px-8 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Type</th>
+<th class="px-8 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Status</th>
+<th class="px-8 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">Latency</th>
+</tr>
+</thead>
+<tbody class="text-sm font-medium">
+<tr class="hover:bg-surface-container-high transition-colors group">
+<td class="px-8 py-4 text-slate-500">08:42:12:004</td>
+<td class="px-8 py-4 font-mono text-xs">#NE-98234-AX</td>
+<td class="px-8 py-4">Neural Buffer Handshake</td>
+<td class="px-8 py-4">
+<span class="px-3 py-1 bg-primary-fixed text-on-primary-fixed-variant rounded-full text-[10px] font-bold uppercase">Success</span>
+</td>
+<td class="px-8 py-4 text-right font-mono text-slate-400">0.04ms</td>
+</tr>
+<tr class="hover:bg-surface-container-high transition-colors group">
+<td class="px-8 py-4 text-slate-500">08:42:11:982</td>
+<td class="px-8 py-4 font-mono text-xs">#NE-98234-AY</td>
+<td class="px-8 py-4">Anomaly Flag Cleared</td>
+<td class="px-8 py-4">
+<span class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-full text-[10px] font-bold uppercase">Resolved</span>
+</td>
+<td class="px-8 py-4 text-right font-mono text-slate-400">1.22ms</td>
+</tr>
+<tr class="hover:bg-surface-container-high transition-colors group">
+<td class="px-8 py-4 text-slate-500">08:42:11:450</td>
+<td class="px-8 py-4 font-mono text-xs">#NE-98235-B1</td>
+<td class="px-8 py-4">Data Stream Ingestion</td>
+<td class="px-8 py-4">
+<span class="px-3 py-1 bg-slate-100 text-slate-500 rounded-full text-[10px] font-bold uppercase">Active</span>
+</td>
+<td class="px-8 py-4 text-right font-mono text-slate-400">0.01ms</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

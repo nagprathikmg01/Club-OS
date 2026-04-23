@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "569101739146",
+    "project_id": "clubos-f2eee",
+    "storage_bucket": "clubos-f2eee.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:569101739146:android:8066cd48c8f90b09b4f973",
+        "android_client_info": {
+          "package_name": "com.example.club_os"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCO_2RleOnPYgOhxivPQ0cMQ6VUh1SxJZ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
