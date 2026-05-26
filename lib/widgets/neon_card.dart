@@ -47,9 +47,9 @@ class NeonCard extends StatelessWidget {
             child: CustomPaint(
               painter: _SolarPainter(borderRadius: 16),
               child: Container(
-                padding: padding ?? const EdgeInsets.all(ClubOsTheme.gutter),
+                padding: padding ?? EdgeInsets.all(ClubOsTheme.gutter),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.6), // Crystalline surface
+                  color: ClubOsTheme.solarSurfaceLowest.withOpacity(ClubOsTheme.isDark ? 0.35 : 0.6), // Crystalline surface
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: child,
@@ -86,7 +86,7 @@ class _SolarPainter extends CustomPainter {
       ..lineTo(40, 0);
 
     final Paint highlightPaint = Paint()
-      ..shader = const LinearGradient(
+      ..shader = LinearGradient(
         colors: [ClubOsTheme.primaryCommand, ClubOsTheme.primaryContainer],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,

@@ -52,7 +52,7 @@ class NeonBottomSheet extends StatelessWidget {
               const SizedBox(height: 24),
               Text(
                 title.toUpperCase(),
-                style: const TextStyle(
+                style: TextStyle(
                   color: ClubOsTheme.primaryCommand,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,

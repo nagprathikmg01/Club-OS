@@ -39,7 +39,7 @@ class NeonEmptyState extends StatelessWidget {
               const SizedBox(height: 24),
               Text(
                 title.toUpperCase(),
-                style: const TextStyle(
+                style: TextStyle(
                   color: ClubOsTheme.onSurfaceMain,
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -50,7 +50,7 @@ class NeonEmptyState extends StatelessWidget {
               const SizedBox(height: 12),
               Text(
                 message,
-                style: const TextStyle(
+                style: TextStyle(
                   color: ClubOsTheme.onSurfaceVariant,
                   fontSize: 12,
                 ),

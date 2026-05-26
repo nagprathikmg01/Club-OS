@@ -32,7 +32,7 @@ class TaskCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   task.title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                     color: ClubOsTheme.onSurfaceMain,
@@ -64,14 +64,14 @@ class TaskCard extends StatelessWidget {
                     child: Center(
                       child: Text(
                         task.assigneeName[0].toUpperCase(),
-                        style: const TextStyle(fontSize: 8, fontWeight: FontWeight.bold, color: ClubOsTheme.primaryCommand),
+                        style: TextStyle(fontSize: 8, fontWeight: FontWeight.bold, color: ClubOsTheme.primaryCommand),
                       ),
                     ),
                   ),
                   const SizedBox(width: 6),
                   Text(
                     task.assigneeName.toUpperCase(),
-                    style: const TextStyle(color: ClubOsTheme.onSurfaceVariant, fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 0.5),
+                    style: TextStyle(color: ClubOsTheme.onSurfaceVariant, fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 0.5),
                   ),
                 ],
               ),

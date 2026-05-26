@@ -46,18 +46,18 @@ class _CreateClubScreenState extends State<CreateClubScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         surfaceTintColor: Colors.transparent,
-        title: Text('INITIALIZE NETWORK', style: ClubOsTheme.lightTheme.textTheme.labelSmall?.copyWith(letterSpacing: 1.5)),
+        title: Text('INITIALIZE NETWORK', style: Theme.of(context).textTheme.labelSmall?.copyWith(letterSpacing: 1.5)),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: ClubOsTheme.primaryCommand, size: 20),
+          icon: Icon(Icons.arrow_back_ios_new_rounded, color: ClubOsTheme.primaryCommand, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(ClubOsTheme.gutterLarge),
+        padding: EdgeInsets.all(ClubOsTheme.gutterLarge),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               'ESTABLISH NEW ORGANIZATION',
               style: TextStyle(color: ClubOsTheme.onSurfaceVariant, letterSpacing: 0.5, fontSize: 10, fontWeight: FontWeight.bold),
             ),
@@ -95,7 +95,7 @@ class _CreateClubScreenState extends State<CreateClubScreen> {
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             color: ClubOsTheme.onSurfaceVariant,
             fontSize: 10,
             fontWeight: FontWeight.bold,
@@ -107,7 +107,7 @@ class _CreateClubScreenState extends State<CreateClubScreen> {
           controller: controller,
           obscureText: obscure,
           maxLines: maxLines,
-          style: const TextStyle(color: ClubOsTheme.onSurfaceMain),
+          style: TextStyle(color: ClubOsTheme.onSurfaceMain),
           decoration: InputDecoration(
             filled: true,
             fillColor: ClubOsTheme.solarSurfaceLowest,
@@ -118,7 +118,7 @@ class _CreateClubScreenState extends State<CreateClubScreen> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: ClubOsTheme.primaryCommand, width: 1.5),
+              borderSide: BorderSide(color: ClubOsTheme.primaryCommand, width: 1.5),
             ),
           ),
         ),

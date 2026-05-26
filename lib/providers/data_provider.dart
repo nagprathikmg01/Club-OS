@@ -9,6 +9,11 @@ import '../models/membership_request.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import '../models/budget_entry.dart';
+import '../models/inventory_item.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import '../theme.dart';
 
 class DataProvider with ChangeNotifier {
   AppUser? _currentUser;
@@ -17,10 +22,22 @@ class DataProvider with ChangeNotifier {
   bool _isAdmin = false; 
   String _activeClubId = '';
   
+  ThemeMode _themeMode = ThemeMode.light;
+  ThemeMode get themeMode => _themeMode;
+  bool get isDarkMode => _themeMode == ThemeMode.dark;
+
+  void toggleTheme() {
+    _themeMode = _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+    ClubOsTheme.isDark = _themeMode == ThemeMode.dark;
+    notifyListeners();
+  }
+  
   List<Club> _clubs = []; 
   List<Event> _events = [];
   List<Task> _tasks = [];
   List<ChatMessage> _messages = [];
+  List<BudgetEntry> _budgetEntries = [];
+  List<InventoryItem> _inventoryItems = [];
   String _searchQuery = '';
 
   // Stream Subscriptions
@@ -30,6 +47,9 @@ class DataProvider with ChangeNotifier {
   StreamSubscription? _tasksSub;
   StreamSubscription? _membersSub;
   StreamSubscription? _requestsSub;
+  StreamSubscription? _budgetSub;
+  StreamSubscription? _inventorySub;
+  StreamSubscription? _messagesSub;
   
   DataProvider() {
     FirebaseAuth.instance.authStateChanges().listen((user) {
@@ -46,12 +66,26 @@ class DataProvider with ChangeNotifier {
               _isAdmin = false; // Will be refined by club ownership
             }
 
-            if (_activeClubId.isEmpty && _currentUser!.currentClubId != null) {
+            if (_currentUser!.currentClubId != null && _activeClubId != _currentUser!.currentClubId) {
               _activeClubId = _currentUser!.currentClubId!;
+              _initStreams();
             }
-            
-            _initStreams();
             notifyListeners();
+          } else {
+            // User doc doesn't exist — auto-create on first login
+            final isAdminEmail = user.email == 'prathik32p@gmail.com';
+            FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+              'uid': user.uid,
+              'name': user.displayName ?? user.email?.split('@').first ?? 'User',
+              'email': user.email ?? '',
+              'currentClubId': isAdminEmail ? 'nmit_robotics' : null,
+              'status': 'active',
+              'role': isAdminEmail ? 'leader' : 'member',
+              'xp': 0,
+              'level': 1,
+            }).then((_) {
+              if (isAdminEmail) _autoSeedAdminData(user);
+            });
           }
         });
 
@@ -90,6 +124,35 @@ class DataProvider with ChangeNotifier {
     _tasksSub?.cancel();
     _membersSub?.cancel();
     _requestsSub?.cancel();
+    _budgetSub?.cancel();
+    _inventorySub?.cancel();
+    _messagesSub?.cancel();
+  }
+
+  Future<void> _autoSeedAdminData(User user) async {
+    final firestore = FirebaseFirestore.instance;
+    final clubs = [
+      {'id': 'nmit_robotics', 'name': 'NMIT Robotics Club', 'code': 'NMTRB'},
+      {'id': 'nmit_coding',   'name': 'NMIT Coding Club',   'code': 'NMTCC'},
+      {'id': 'nmit_ecell',    'name': 'NMIT E-Cell',        'code': 'NMTEC'},
+      {'id': 'nmit_ieee',     'name': 'NMIT IEEE SB',       'code': 'NMTIE'},
+    ];
+    for (var c in clubs) {
+      final docRef = firestore.collection('clubs').doc(c['id']);
+      final existing = await docRef.get();
+      if (!existing.exists) {
+        await docRef.set({
+          'name': c['name'],
+          'description': 'Official NMIT club.',
+          'memberCount': 15,
+          'imageUrl': 'https://images.unsplash.com/photo-1562774053-701939374585?w=800',
+          'joinCode': c['code'],
+          'ownerUid': user.uid,
+          'budget': 0.0,
+          'inventoryCount': 0,
+        });
+      }
+    }
   }
 
   void _initStreams() {
@@ -144,6 +207,41 @@ class DataProvider with ChangeNotifier {
       _pendingRequests = [];
       notifyListeners();
     }
+
+    _budgetSub?.cancel();
+    _budgetSub = FirebaseFirestore.instance
+        .collection('clubs')
+        .doc(_activeClubId)
+        .collection('budget')
+        .orderBy('date', descending: true)
+        .snapshots()
+        .listen((snapshot) {
+      _budgetEntries = snapshot.docs.map((doc) => BudgetEntry.fromMap(doc.data(), doc.id)).toList();
+      notifyListeners();
+    });
+
+    _inventorySub?.cancel();
+    _inventorySub = FirebaseFirestore.instance
+        .collection('clubs')
+        .doc(_activeClubId)
+        .collection('inventory')
+        .snapshots()
+        .listen((snapshot) {
+      _inventoryItems = snapshot.docs.map((doc) => InventoryItem.fromMap(doc.data(), doc.id)).toList();
+      notifyListeners();
+    });
+
+    _messagesSub?.cancel();
+    _messagesSub = FirebaseFirestore.instance
+        .collection('clubs')
+        .doc(_activeClubId)
+        .collection('messages')
+        .orderBy('timestamp', descending: false)
+        .snapshots()
+        .listen((snapshot) {
+      _messages = snapshot.docs.map((doc) => ChatMessage.fromMap(doc.data(), doc.id)).toList();
+      notifyListeners();
+    });
   }
 
   bool get isAdmin {
@@ -211,9 +309,13 @@ class DataProvider with ChangeNotifier {
     return msgs;
   }
 
-  void sendMessage(ChatMessage msg) {
-    _messages.add(msg);
-    notifyListeners();
+  Future<void> sendMessage(ChatMessage msg) async {
+    await FirebaseFirestore.instance
+        .collection('clubs')
+        .doc(_activeClubId)
+        .collection('messages')
+        .doc(msg.id)
+        .set(msg.toMap());
   }
 
   // Elite Member Roster
@@ -394,8 +496,91 @@ class DataProvider with ChangeNotifier {
     FirebaseFirestore.instance.collection('clubs').doc(_activeClubId).collection('tasks').doc(updatedTask.id).update(updatedTask.toMap());
   }
   
-  void updateTaskStatus(String taskId, String newStatus) {
-    FirebaseFirestore.instance.collection('clubs').doc(_activeClubId).collection('tasks').doc(taskId).update({'status': newStatus});
+  void updateTaskStatus(String taskId, String newStatus) async {
+    final task = _tasks.firstWhere((t) => t.id == taskId);
+    await FirebaseFirestore.instance.collection('clubs').doc(_activeClubId).collection('tasks').doc(taskId).update({'status': newStatus});
+
+    if (newStatus == 'done' && task.status != 'done') {
+      // Award XP to assignee
+      final userDoc = await FirebaseFirestore.instance.collection('users').doc(task.assigneeId).get();
+      if (userDoc.exists) {
+        final userData = userDoc.data()!;
+        int currentXp = userData['xp'] ?? 0;
+        int currentLevel = userData['level'] ?? 1;
+        int newXp = currentXp + task.xpReward;
+        
+        // Simple level logic: Level up every 1000 XP
+        int newLevel = (newXp / 1000).floor() + 1;
+        
+        await FirebaseFirestore.instance.collection('users').doc(task.assigneeId).update({
+          'xp': newXp,
+          'level': newLevel,
+        });
+
+        // Trigger Discord Webhook for major achievements
+        if (newLevel > currentLevel) {
+          _sendDiscordNotification('Elite Level Up!', '${task.assigneeName} has reached LEVEL $newLevel in ${activeClub.name}!');
+        }
+      }
+    }
+  }
+
+  // --- Fiscal Observatory & Vault Logic ---
+  List<BudgetEntry> get budgetEntries => _budgetEntries;
+  List<InventoryItem> get inventoryItems => _inventoryItems;
+
+  double get totalBalance {
+    double income = _budgetEntries.where((e) => e.type == 'income').fold(0, (sum, e) => sum + e.amount);
+    double expense = _budgetEntries.where((e) => e.type == 'expense').fold(0, (sum, e) => sum + e.amount);
+    return income - expense;
+  }
+
+  Future<void> addBudgetEntry(BudgetEntry entry) async {
+    await FirebaseFirestore.instance.collection('clubs').doc(_activeClubId).collection('budget').add(entry.toMap());
+  }
+
+  Future<void> addInventoryItem(InventoryItem item) async {
+    await FirebaseFirestore.instance.collection('clubs').doc(_activeClubId).collection('inventory').add(item.toMap());
+  }
+
+  Future<void> updateInventoryItem(InventoryItem item) async {
+    await FirebaseFirestore.instance
+        .collection('clubs')
+        .doc(_activeClubId)
+        .collection('inventory')
+        .doc(item.id)
+        .update(item.toMap());
+  }
+
+  Future<void> deleteInventoryItem(String id) async {
+    await FirebaseFirestore.instance
+        .collection('clubs')
+        .doc(_activeClubId)
+        .collection('inventory')
+        .doc(id)
+        .delete();
+  }
+
+  // --- Discord Webhook Sync ---
+  Future<void> _sendDiscordNotification(String title, String message) async {
+    // Placeholder webhook - replace with your actual Discord Webhook URL
+    const String webhookUrl = 'https://discord.com/api/webhooks/PLACEHOLDER';
+    try {
+      await http.post(
+        Uri.parse(webhookUrl),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'embeds': [{
+            'title': title,
+            'description': message,
+            'color': 0x00FF00,
+            'footer': {'text': 'ClubOS Intelligence System'}
+          }]
+        }),
+      );
+    } catch (e) {
+      print('Webhook failure: $e');
+    }
   }
 
   // --- Auth Elite: Google Logic ---

@@ -60,27 +60,27 @@ class ClubProfileScreen extends StatelessWidget {
             ),
           ),
           SliverPadding(
-            padding: const EdgeInsets.all(ClubOsTheme.gutterLarge),
+            padding: EdgeInsets.all(ClubOsTheme.gutterLarge),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
                 Text(
                   'CLUB OVERVIEW',
-                  style: ClubOsTheme.lightTheme.textTheme.labelSmall,
+                  style: Theme.of(context).textTheme.labelSmall,
                 ),
                 const SizedBox(height: 16),
                 _buildBentoCard(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(activeClub.description, style: ClubOsTheme.lightTheme.textTheme.bodyMedium),
+                      Text(activeClub.description, style: Theme.of(context).textTheme.bodyMedium),
                       const SizedBox(height: 24),
                       Row(
                         children: [
-                          _buildStat('MEMBERS', activeClub.memberCount.toString()),
+                          _buildStat(context, 'MEMBERS', activeClub.memberCount.toString()),
                           const SizedBox(width: 32),
-                          _buildStat('EVENTS', provider.activeEvents.toString()),
+                          _buildStat(context, 'EVENTS', provider.activeEvents.toString()),
                           const SizedBox(width: 32),
-                          _buildStat('AVAILABILITY', provider.taskCompletionRatePercent),
+                          _buildStat(context, 'AVAILABILITY', provider.taskCompletionRatePercent),
                         ],
                       ),
                     ],
@@ -89,7 +89,7 @@ class ClubProfileScreen extends StatelessWidget {
                 const SizedBox(height: 32),
                 Text(
                   'ROSTER',
-                  style: ClubOsTheme.lightTheme.textTheme.labelSmall,
+                  style: Theme.of(context).textTheme.labelSmall,
                 ),
                 const SizedBox(height: 16),
                 ...members.map((m) => Padding(
@@ -115,8 +115,8 @@ class ClubProfileScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(m.name, style: const TextStyle(fontWeight: FontWeight.bold, color: ClubOsTheme.onSurfaceMain)),
-                                Text(m.email.toLowerCase(), style: const TextStyle(fontSize: 12, color: ClubOsTheme.onSurfaceVariant)),
+                                Text(m.name, style: TextStyle(fontWeight: FontWeight.bold, color: ClubOsTheme.onSurfaceMain)),
+                                Text(m.email.toLowerCase(), style: TextStyle(fontSize: 12, color: ClubOsTheme.onSurfaceVariant)),
                               ],
                             ),
                           ),
@@ -140,7 +140,7 @@ class ClubProfileScreen extends StatelessWidget {
                 const SizedBox(height: 32),
                 Text(
                   'MANAGED NETWORKS',
-                  style: ClubOsTheme.lightTheme.textTheme.labelSmall,
+                  style: Theme.of(context).textTheme.labelSmall,
                 ),
                 const SizedBox(height: 16),
                 ...provider.clubs.map((club) => Padding(
@@ -159,7 +159,7 @@ class ClubProfileScreen extends StatelessWidget {
                             errorBuilder: (context, error, stackTrace) => Container(
                               width: 50, height: 50,
                               color: ClubOsTheme.primaryCommand.withOpacity(0.05),
-                              child: const Icon(Icons.business, color: ClubOsTheme.primaryCommand, size: 20),
+                              child: Icon(Icons.business, color: ClubOsTheme.primaryCommand, size: 20),
                             ),
                           ),
                         ),
@@ -168,17 +168,17 @@ class ClubProfileScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(club.name.toUpperCase(), style: const TextStyle(fontWeight: FontWeight.bold, color: ClubOsTheme.onSurfaceMain, fontSize: 13)),
-                              Text('SYNC CODE: ${club.joinCode}', style: const TextStyle(fontSize: 10, color: ClubOsTheme.tertiaryAnalytical, fontWeight: FontWeight.bold, letterSpacing: 1)),
+                              Text(club.name.toUpperCase(), style: TextStyle(fontWeight: FontWeight.bold, color: ClubOsTheme.onSurfaceMain, fontSize: 13)),
+                              Text('SYNC CODE: ${club.joinCode}', style: TextStyle(fontSize: 10, color: ClubOsTheme.tertiaryAnalytical, fontWeight: FontWeight.bold, letterSpacing: 1)),
                             ],
                           ),
                         ),
                         if (club.id == provider.activeClubId)
-                          const Icon(Icons.check_circle, color: ClubOsTheme.primaryCommand, size: 20)
+                          Icon(Icons.check_circle, color: ClubOsTheme.primaryCommand, size: 20)
                         else
                           TextButton(
                             onPressed: () => provider.switchClub(club.id),
-                            child: const Text('SWITCH', style: TextStyle(color: ClubOsTheme.primaryCommand, fontSize: 11, fontWeight: FontWeight.bold)),
+                            child: Text('SWITCH', style: TextStyle(color: ClubOsTheme.primaryCommand, fontSize: 11, fontWeight: FontWeight.bold)),
                           ),
                       ],
                     ),
@@ -208,23 +208,18 @@ class ClubProfileScreen extends StatelessWidget {
   }
 
   Widget _buildBentoCard({required Widget child, EdgeInsets? padding}) {
-    return Container(
+    return NeonCard(
       padding: padding ?? const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: ClubOsTheme.solarSurfaceLowest,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: ClubOsTheme.outlineVariant.withOpacity(0.1)),
-      ),
       child: child,
     );
   }
 
-  Widget _buildStat(String label, String value) {
+  Widget _buildStat(BuildContext context, String label, String value) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(value, style: ClubOsTheme.lightTheme.textTheme.titleMedium?.copyWith(fontSize: 20, fontWeight: FontWeight.bold)),
-        Text(label, style: const TextStyle(fontSize: 9, color: ClubOsTheme.onSurfaceVariant, fontWeight: FontWeight.bold, letterSpacing: 1)),
+        Text(value, style: Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 20, fontWeight: FontWeight.bold)),
+        Text(label, style: TextStyle(fontSize: 9, color: ClubOsTheme.onSurfaceVariant, fontWeight: FontWeight.bold, letterSpacing: 1)),
       ],
     );
   }

@@ -27,10 +27,13 @@ class ClubOsApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dataProvider = context.watch<DataProvider>();
     return MaterialApp(
       title: 'ClubOS by Nag Prathik',
       debugShowCheckedModeBanner: false,
       theme: ClubOsTheme.lightTheme,
+      darkTheme: ClubOsTheme.darkTheme,
+      themeMode: dataProvider.themeMode,
       home: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {

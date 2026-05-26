@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../theme.dart';
 import '../../providers/data_provider.dart';
 import 'club/create_club_screen.dart';
+import '../../services/seed_service.dart';
 
 class JoinClubScreen extends StatefulWidget {
   const JoinClubScreen({super.key});
@@ -24,7 +25,7 @@ class _JoinClubScreenState extends State<JoinClubScreen> {
       await context.read<DataProvider>().joinClub(code);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('CLEARENCE REQUEST SENT'), backgroundColor: ClubOsTheme.primaryCommand),
+          SnackBar(content: Text('CLEARENCE REQUEST SENT'), backgroundColor: ClubOsTheme.primaryCommand),
         );
       }
     } catch (e) {
@@ -51,9 +52,9 @@ class _JoinClubScreenState extends State<JoinClubScreen> {
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.verified_user_outlined, size: 64, color: ClubOsTheme.primaryCommand),
+                  Icon(Icons.verified_user_outlined, size: 64, color: ClubOsTheme.primaryCommand),
                   const SizedBox(height: 32),
-                  const Text(
+                  Text(
                     'SECURITY CLEARANCE PENDING',
                     style: TextStyle(
                       color: ClubOsTheme.primaryCommand,
@@ -64,7 +65,7 @@ class _JoinClubScreenState extends State<JoinClubScreen> {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 16),
-                  const Text(
+                  Text(
                     'Your verification request is currently being reviewed by organizational leads. Access will be granted upon clearance.',
                     style: TextStyle(color: ClubOsTheme.onSurfaceVariant, fontSize: 13, height: 1.5),
                     textAlign: TextAlign.center,
@@ -77,7 +78,7 @@ class _JoinClubScreenState extends State<JoinClubScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'INITIALIZE LINK',
                     style: TextStyle(
                       color: ClubOsTheme.primaryCommand,
@@ -87,7 +88,7 @@ class _JoinClubScreenState extends State<JoinClubScreen> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  const Text(
+                  Text(
                     'INPUT ARCHIVE ACCESS KEY (6-DIGIT)',
                     style: TextStyle(
                       color: ClubOsTheme.onSurfaceVariant,
@@ -101,7 +102,7 @@ class _JoinClubScreenState extends State<JoinClubScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         'PROTOCOL_KEY',
                         style: TextStyle(
                           color: ClubOsTheme.onSurfaceVariant,
@@ -113,7 +114,7 @@ class _JoinClubScreenState extends State<JoinClubScreen> {
                       const SizedBox(height: 8),
                       TextField(
                         controller: _codeController,
-                        style: const TextStyle(color: ClubOsTheme.onSurfaceMain, letterSpacing: 8, fontWeight: FontWeight.bold, fontSize: 18),
+                        style: TextStyle(color: ClubOsTheme.onSurfaceMain, letterSpacing: 8, fontWeight: FontWeight.bold, fontSize: 18),
                         textCapitalization: TextCapitalization.characters,
                         decoration: InputDecoration(
                           filled: true,
@@ -125,7 +126,7 @@ class _JoinClubScreenState extends State<JoinClubScreen> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: ClubOsTheme.primaryCommand, width: 1.5),
+                            borderSide: BorderSide(color: ClubOsTheme.primaryCommand, width: 1.5),
                           ),
                         ),
                       ),
@@ -153,12 +154,64 @@ class _JoinClubScreenState extends State<JoinClubScreen> {
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(builder: (_) => const CreateClubScreen()));
                       },
-                      child: const Text(
+                      child: Text(
                         'INITIALIZE NEW NETWORK',
                         style: TextStyle(color: ClubOsTheme.onSurfaceVariant, fontSize: 9, letterSpacing: 1, fontWeight: FontWeight.bold),
                       ),
                     ),
-                  )
+                  ),
+                  const SizedBox(height: 32),
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      color: ClubOsTheme.tertiaryAnalytical.withOpacity(0.05),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: ClubOsTheme.tertiaryAnalytical.withOpacity(0.2)),
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          'DEMO MODE: INITIALIZE NMIT DATA',
+                          style: TextStyle(
+                            color: ClubOsTheme.tertiaryAnalytical,
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          'Populate NMIT Bangalore clubs, members, and events for your presentation.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.black54, fontSize: 11),
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton.icon(
+                          onPressed: () async {
+                            try {
+                              await SeedService.seedData();
+                              if (mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('NMIT SYSTEM DATA INITIALIZED')));
+                              }
+                            } catch (e) {
+                              if (mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('INITIALIZATION ERROR: $e')));
+                              }
+                            }
+                          },
+                          icon: const Icon(Icons.auto_awesome, size: 18),
+                          label: const Text('SEED NMIT SYSTEM DATA'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: ClubOsTheme.tertiaryAnalytical,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
         ),

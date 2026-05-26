@@ -7,6 +7,8 @@ class Club {
 
   final String joinCode;
   final String ownerUid;
+  final double budget;
+  final int inventoryCount;
 
   Club({
     required this.id,
@@ -16,6 +18,8 @@ class Club {
     required String imageUrl,
     required this.joinCode,
     required this.ownerUid,
+    this.budget = 0.0,
+    this.inventoryCount = 0,
   }) : imageUrl = imageUrl.isEmpty 
           ? 'https://images.unsplash.com/photo-1522071823907-f6fcb0606d1c?q=80&w=1000&auto=format&fit=crop' 
           : imageUrl;
@@ -28,6 +32,8 @@ class Club {
       'imageUrl': imageUrl,
       'joinCode': joinCode,
       'ownerUid': ownerUid,
+      'budget': budget,
+      'inventoryCount': inventoryCount,
     };
   }
 
@@ -40,6 +46,8 @@ class Club {
       imageUrl: map['imageUrl'] ?? '',
       joinCode: map['joinCode'] ?? '',
       ownerUid: map['ownerUid'] ?? '',
+      budget: (map['budget'] ?? 0).toDouble(),
+      inventoryCount: map['inventoryCount'] ?? 0,
     );
   }
 }

@@ -27,7 +27,7 @@ class StatTile extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             value,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
               color: ClubOsTheme.onSurfaceMain,
@@ -37,7 +37,7 @@ class StatTile extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             label.toUpperCase(),
-            style: const TextStyle(
+            style: TextStyle(
               color: ClubOsTheme.onSurfaceVariant,
               fontSize: 9,
               fontWeight: FontWeight.bold,

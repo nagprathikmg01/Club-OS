@@ -19,9 +19,9 @@ class _ChatScreenState extends State<ChatScreen> {
     if (_messageController.text.trim().isEmpty) return;
 
     final provider = context.read<DataProvider>();
-    final isAdmin = provider.isAdmin;
-    final userName = isAdmin ? 'Admin User' : 'Member You';
-    final userId = isAdmin ? 'admin_123' : 'm_you';
+    final currentUser = provider.currentUser;
+    final userName = currentUser?.name ?? 'User';
+    final userId = currentUser?.uid ?? '';
 
     final msg = ChatMessage(
       id: const Uuid().v4(),
@@ -40,8 +40,8 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     final provider = context.watch<DataProvider>();
     final messages = provider.chatMessages;
-    final isAdmin = provider.isAdmin;
-    final currentUserId = isAdmin ? 'admin_123' : 'm_you';
+    final currentUser = provider.currentUser;
+    final currentUserId = currentUser?.uid ?? '';
 
     return Scaffold(
       backgroundColor: ClubOsTheme.solarBase,
@@ -49,7 +49,7 @@ class _ChatScreenState extends State<ChatScreen> {
         children: [
           // Header
           Padding(
-            padding: const EdgeInsets.fromLTRB(ClubOsTheme.gutterLarge, 60, ClubOsTheme.gutterLarge, 20),
+            padding: EdgeInsets.fromLTRB(ClubOsTheme.gutterLarge, 60, ClubOsTheme.gutterLarge, 20),
             child: Row(
               children: [
                 Column(
@@ -57,13 +57,13 @@ class _ChatScreenState extends State<ChatScreen> {
                   children: [
                     Text(
                       'COMMUNICATIONS',
-                      style: ClubOsTheme.lightTheme.textTheme.labelSmall?.copyWith(
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         letterSpacing: 2,
                         fontWeight: FontWeight.bold,
                         fontSize: 10,
                       ),
                     ),
-                    Text('INTEL STREAM', style: ClubOsTheme.lightTheme.textTheme.displayLarge?.copyWith(fontSize: 28)),
+                    Text('INTEL STREAM', style: Theme.of(context).textTheme.displayLarge?.copyWith(fontSize: 28)),
                   ],
                 ),
               ],
@@ -72,11 +72,11 @@ class _ChatScreenState extends State<ChatScreen> {
           
           Expanded(
             child: messages.isEmpty
-                ? const Center(
+                ? Center(
                     child: Text('NO DATA IN STREAM', style: TextStyle(color: ClubOsTheme.onSurfaceVariant, fontWeight: FontWeight.bold, fontSize: 10, letterSpacing: 1)),
                   )
                 : ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: ClubOsTheme.gutterLarge, vertical: 16),
+                    padding: EdgeInsets.symmetric(horizontal: ClubOsTheme.gutterLarge, vertical: 16),
                     itemCount: messages.length,
                     itemBuilder: (context, index) {
                       final msg = messages[index];
@@ -88,7 +88,7 @@ class _ChatScreenState extends State<ChatScreen> {
           
           // Input Area
           Container(
-            padding: const EdgeInsets.fromLTRB(ClubOsTheme.gutter, ClubOsTheme.gutter, ClubOsTheme.gutter, 40),
+            padding: EdgeInsets.fromLTRB(ClubOsTheme.gutter, ClubOsTheme.gutter, ClubOsTheme.gutter, 40),
             decoration: BoxDecoration(
               color: ClubOsTheme.solarSurfaceLowest,
               boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10)],
@@ -99,10 +99,10 @@ class _ChatScreenState extends State<ChatScreen> {
                 Expanded(
                   child: TextField(
                     controller: _messageController,
-                    style: const TextStyle(color: ClubOsTheme.onSurfaceMain),
+                    style: TextStyle(color: ClubOsTheme.onSurfaceMain),
                     decoration: InputDecoration(
                       hintText: 'Transmit message...',
-                      hintStyle: const TextStyle(color: ClubOsTheme.onSurfaceVariant),
+                      hintStyle: TextStyle(color: ClubOsTheme.onSurfaceVariant),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(color: ClubOsTheme.outlineVariant.withOpacity(0.1)),
@@ -153,7 +153,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 shape: BoxShape.circle,
               ),
               child: Center(
-                child: Text(msg.senderName[0].toUpperCase(), style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: ClubOsTheme.primaryCommand)),
+                child: Text(msg.senderName[0].toUpperCase(), style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: ClubOsTheme.primaryCommand)),
               ),
             ),
           if (!isMe) const SizedBox(width: 8),
@@ -174,7 +174,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 if (!isMe)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 4),
-                    child: Text(msg.senderName.toUpperCase(), style: const TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: ClubOsTheme.onSurfaceVariant, letterSpacing: 0.5)),
+                    child: Text(msg.senderName.toUpperCase(), style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: ClubOsTheme.onSurfaceVariant, letterSpacing: 0.5)),
                   ),
                 Text(
                   msg.text,

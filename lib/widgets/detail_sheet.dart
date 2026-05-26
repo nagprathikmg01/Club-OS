@@ -87,7 +87,7 @@ class _DetailSheetState extends State<DetailSheet> {
         left: 24, right: 24, top: 32,
         bottom: MediaQuery.of(context).viewInsets.bottom + 32, // Keyboard padding
       ),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: ClubOsTheme.solarSurfaceLowest,
         borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
         boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 20)],
@@ -109,12 +109,12 @@ class _DetailSheetState extends State<DetailSheet> {
                   ),
                   child: Text(
                     isEvent ? 'EVENT' : 'TASK',
-                    style: ClubOsTheme.lightTheme.textTheme.labelSmall,
+                    style: Theme.of(context).textTheme.labelSmall,
                   ),
                 ),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(Icons.close, color: ClubOsTheme.onSurfaceVariant),
+                  icon: Icon(Icons.close, color: ClubOsTheme.onSurfaceVariant),
                 ),
               ],
             ),
@@ -123,11 +123,11 @@ class _DetailSheetState extends State<DetailSheet> {
             if (_isEditing) ...[
               TextField(
                 controller: _titleController,
-                style: ClubOsTheme.lightTheme.textTheme.titleMedium,
+                style: Theme.of(context).textTheme.titleMedium,
                 decoration: const InputDecoration(labelText: 'Title'),
               ),
             ] else ...[
-              Text(_titleController.text, style: ClubOsTheme.lightTheme.textTheme.displayLarge?.copyWith(color: ClubOsTheme.onSurfaceMain, fontSize: 32)),
+              Text(_titleController.text, style: Theme.of(context).textTheme.displayLarge?.copyWith(color: ClubOsTheme.onSurfaceMain, fontSize: 32)),
             ],
 
             const SizedBox(height: 8),
@@ -155,10 +155,10 @@ class _DetailSheetState extends State<DetailSheet> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.calendar_today, size: 16, color: ClubOsTheme.onSurfaceVariant),
+                    Icon(Icons.calendar_today, size: 16, color: ClubOsTheme.onSurfaceVariant),
                     const SizedBox(width: 8),
-                    Text(DateFormat('EEEE, MMM dd').format(_selectedDate).toUpperCase(), style: ClubOsTheme.lightTheme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold, fontSize: 11)),
-                    if (_isEditing) const Padding(
+                    Text(DateFormat('EEEE, MMM dd').format(_selectedDate).toUpperCase(), style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold, fontSize: 11)),
+                    if (_isEditing) Padding(
                       padding: EdgeInsets.only(left: 8.0),
                       child: Icon(Icons.edit, size: 14, color: ClubOsTheme.primaryCommand),
                     ),
@@ -169,7 +169,7 @@ class _DetailSheetState extends State<DetailSheet> {
             const SizedBox(height: 32),
             
             if (isEvent && !_isEditing) ...[
-              Text('EVENT PROGRESS', style: ClubOsTheme.lightTheme.textTheme.labelSmall),
+              Text('EVENT PROGRESS', style: Theme.of(context).textTheme.labelSmall),
               const SizedBox(height: 12),
               Builder(
                 builder: (context) {
@@ -179,7 +179,7 @@ class _DetailSheetState extends State<DetailSheet> {
                   final taskCount = provider.getTasksForEvent(eventId).length;
                   
                   if (taskCount == 0) {
-                    return const Text('No operational tasks linked to this event.', style: TextStyle(color: ClubOsTheme.onSurfaceVariant, fontSize: 13));
+                    return Text('No operational tasks linked to this event.', style: TextStyle(color: ClubOsTheme.onSurfaceVariant, fontSize: 13));
                   }
                   
                   return Column(
@@ -188,8 +188,8 @@ class _DetailSheetState extends State<DetailSheet> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('\${(rate * 100).toInt()}% Completed', style: const TextStyle(fontWeight: FontWeight.bold, color: ClubOsTheme.onSurfaceMain)),
-                          Text("\$taskCount Task\${taskCount > 1 ? 's' : ''}", style: const TextStyle(color: ClubOsTheme.onSurfaceVariant, fontSize: 12)),
+                          Text('\${(rate * 100).toInt()}% Completed', style: TextStyle(fontWeight: FontWeight.bold, color: ClubOsTheme.onSurfaceMain)),
+                          Text("\$taskCount Task\${taskCount > 1 ? 's' : ''}", style: TextStyle(color: ClubOsTheme.onSurfaceVariant, fontSize: 12)),
                         ],
                       ),
                       const SizedBox(height: 8),
@@ -210,18 +210,18 @@ class _DetailSheetState extends State<DetailSheet> {
             ],
             
             // Description
-            Text('DETAILS', style: ClubOsTheme.lightTheme.textTheme.labelSmall),
+            Text('DETAILS', style: Theme.of(context).textTheme.labelSmall),
             const SizedBox(height: 12),
             
             if (_isEditing) ...[
               TextField(
                 controller: _descController,
-                style: ClubOsTheme.lightTheme.textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium,
                 maxLines: 4,
                 decoration: const InputDecoration(labelText: 'Description'),
               ),
             ] else ...[
-              Text(_descController.text, style: ClubOsTheme.lightTheme.textTheme.bodyMedium),
+              Text(_descController.text, style: Theme.of(context).textTheme.bodyMedium),
             ],
             
             const SizedBox(height: 48),

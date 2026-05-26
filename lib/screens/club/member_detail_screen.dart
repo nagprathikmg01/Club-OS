@@ -4,6 +4,8 @@ import '../../models/app_user.dart';
 import '../../providers/data_provider.dart';
 import '../../theme.dart';
 import '../../widgets/task_card.dart';
+import '../../services/certificate_service.dart';
+import '../../widgets/neon_card.dart';
 
 class MemberDetailScreen extends StatelessWidget {
   final AppUser member;
@@ -25,7 +27,7 @@ class MemberDetailScreen extends StatelessWidget {
         surfaceTintColor: Colors.transparent,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(ClubOsTheme.gutterLarge),
+        padding: EdgeInsets.all(ClubOsTheme.gutterLarge),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -44,7 +46,7 @@ class MemberDetailScreen extends StatelessWidget {
                      child: Center(
                        child: Text(
                         member.name[0].toUpperCase(),
-                        style: const TextStyle(fontSize: 32, color: ClubOsTheme.primaryCommand, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: 32, color: ClubOsTheme.primaryCommand, fontWeight: FontWeight.bold),
                       ),
                      ),
                    ),
@@ -54,7 +56,7 @@ class MemberDetailScreen extends StatelessWidget {
                        crossAxisAlignment: CrossAxisAlignment.start,
                        children: [
                          Text(member.name, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                         Text(member.email.toLowerCase(), style: const TextStyle(color: ClubOsTheme.onSurfaceVariant, fontSize: 13)),
+                         Text(member.email.toLowerCase(), style: TextStyle(color: ClubOsTheme.onSurfaceVariant, fontSize: 13)),
                          const SizedBox(height: 12),
                          Container(
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -65,7 +67,7 @@ class MemberDetailScreen extends StatelessWidget {
                           ),
                           child: Text(
                             member.role.toUpperCase(),
-                            style: const TextStyle(color: ClubOsTheme.primaryCommand, fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 1),
+                            style: TextStyle(color: ClubOsTheme.primaryCommand, fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 1),
                           ),
                         ),
                        ],
@@ -79,7 +81,7 @@ class MemberDetailScreen extends StatelessWidget {
             // Operational Intelligence Section
             Text(
               'OPERATIONAL INTELLIGENCE',
-              style: ClubOsTheme.lightTheme.textTheme.labelSmall,
+              style: Theme.of(context).textTheme.labelSmall,
             ),
             const SizedBox(height: 16),
             Row(
@@ -98,11 +100,11 @@ class MemberDetailScreen extends StatelessWidget {
                    Column(
                      crossAxisAlignment: CrossAxisAlignment.start,
                      children: [
-                        const Text('SYNC PERFORMANCE', style: TextStyle(color: ClubOsTheme.onSurfaceVariant, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1)),
+                        Text('SYNC PERFORMANCE', style: TextStyle(color: ClubOsTheme.onSurfaceVariant, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1)),
                         const SizedBox(height: 4),
                         Text(
                           '${(stats['efficiency'] * 100).toInt()}% READY',
-                          style: const TextStyle(color: ClubOsTheme.primaryCommand, fontWeight: FontWeight.bold, fontSize: 18),
+                          style: TextStyle(color: ClubOsTheme.primaryCommand, fontWeight: FontWeight.bold, fontSize: 18),
                         ),
                      ],
                    ),
@@ -121,11 +123,11 @@ class MemberDetailScreen extends StatelessWidget {
             // Activity Log
             Text(
               'DEPLOYMENT HISTORY',
-              style: ClubOsTheme.lightTheme.textTheme.labelSmall,
+              style: Theme.of(context).textTheme.labelSmall,
             ),
             const SizedBox(height: 16),
             if (userTasks.isEmpty)
-              const Center(child: Padding(
+              Center(child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 48),
                 child: Text('NO ACTIVE DEPLOYMENTS FOUND', style: TextStyle(color: ClubOsTheme.onSurfaceVariant, fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 1)),
               ))
@@ -135,6 +137,22 @@ class MemberDetailScreen extends StatelessWidget {
                 child: TaskCard(task: task),
               )),
             const SizedBox(height: 32),
+
+            if (provider.isAdmin)
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () => CertificateService.generateAndPrint(member, provider.activeClub.name),
+                  icon: const Icon(Icons.workspace_premium_outlined, color: Colors.white),
+                  label: const Text('GENERATE MERIT CERTIFICATE', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, letterSpacing: 1, fontSize: 11)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.amber[800],
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                ),
+              ),
+            const SizedBox(height: 32),
           ],
         ),
       ),
@@ -142,13 +160,8 @@ class MemberDetailScreen extends StatelessWidget {
   }
 
   Widget _buildBentoCard({required Widget child}) {
-    return Container(
+    return NeonCard(
       padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: ClubOsTheme.solarSurfaceLowest,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: ClubOsTheme.outlineVariant.withOpacity(0.1)),
-      ),
       child: child,
     );
   }
@@ -159,7 +172,7 @@ class MemberDetailScreen extends StatelessWidget {
         children: [
           Text(value, style: TextStyle(color: color, fontSize: 24, fontWeight: FontWeight.bold)),
           const SizedBox(height: 4),
-          Text(label, style: const TextStyle(color: ClubOsTheme.onSurfaceVariant, fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 1)),
+          Text(label, style: TextStyle(color: ClubOsTheme.onSurfaceVariant, fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 1)),
         ],
       ),
     );

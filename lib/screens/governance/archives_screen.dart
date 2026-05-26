@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../theme.dart';
+import '../../widgets/neon_card.dart';
 
 class ArchivesScreen extends StatelessWidget {
   const ArchivesScreen({super.key});
@@ -9,81 +10,81 @@ class ArchivesScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: ClubOsTheme.solarBase,
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(ClubOsTheme.gutterLarge),
+        padding: EdgeInsets.all(ClubOsTheme.gutterLarge),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Header
-            Text('REPOSITORY V4.2', style: ClubOsTheme.lightTheme.textTheme.labelSmall),
+            Text('REPOSITORY V4.2', style: Theme.of(context).textTheme.labelSmall),
             const SizedBox(height: 8),
-            Text('ARCHIVES', style: ClubOsTheme.lightTheme.textTheme.displayLarge?.copyWith(fontSize: 48)),
+            Text('ARCHIVES', style: Theme.of(context).textTheme.displayLarge?.copyWith(fontSize: 48)),
             const SizedBox(height: 12),
-            const Text(
+            Text(
               'Centralized knowledge base for organization governance, historical documentation, and legal frameworks.',
               style: TextStyle(color: ClubOsTheme.onSurfaceVariant, fontSize: 13),
             ),
             const SizedBox(height: 48),
 
-            // Bylaws Section (High-Density)
-            Row(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: _buildBentoCard(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const Icon(Icons.gavel, color: ClubOsTheme.secondaryIntelligence, size: 28),
-                            const SizedBox(width: 12),
-                            Text('ORGANIZATION BYLAWS', style: ClubOsTheme.lightTheme.textTheme.headlineSmall?.copyWith(fontSize: 16)),
-                          ],
-                        ),
-                        const SizedBox(height: 24),
-                        _buildArchiveItem('Main Charter 2024.v2', 'Core governance framework and founding principles.', 'PDF • 4.2 MB', true),
-                        const SizedBox(height: 16),
-                        _buildArchiveItem('Member Conduct Policy', 'Updated ethics and community standards guide.', 'DOCX • 1.8 MB', false),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 24),
-                // Quick Access
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(24),
-                    decoration: BoxDecoration(
-                      color: ClubOsTheme.secondaryIntelligence,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text('QUICK ACCESS', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, letterSpacing: 1.5, fontSize: 11)),
-                        const SizedBox(height: 24),
-                        _buildQuickLink('Member Onboarding Kit'),
-                        _buildQuickLink('Annual Financial Report'),
-                        _buildQuickLink('Emergency Protocols'),
-                        const SizedBox(height: 24),
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white.withOpacity(0.2),
-                            foregroundColor: Colors.white,
+            // Bylaws Section (High-Density & Responsive)
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final bool useVertical = constraints.maxWidth < 650;
+                
+                final bylawsCard = _buildBentoCard(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.gavel, color: ClubOsTheme.secondaryIntelligence, size: 28),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Text(
+                              'ORGANIZATION BYLAWS',
+                              style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 16),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                          child: const Text('REQUEST NEW FILE'),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
+                      const SizedBox(height: 24),
+                      _buildArchiveItem('Main Charter 2024.v2', 'Core governance framework and founding principles.', 'PDF • 4.2 MB', true),
+                      const SizedBox(height: 16),
+                      _buildArchiveItem('Member Conduct Policy', 'Updated ethics and community standards guide.', 'DOCX • 1.8 MB', false),
+                    ],
                   ),
-                ),
-              ],
+                );
+
+                if (useVertical) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      bylawsCard,
+                      const SizedBox(height: 24),
+                      _buildQuickAccessPanel(),
+                    ],
+                  );
+                } else {
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: bylawsCard,
+                      ),
+                      const SizedBox(width: 24),
+                      Expanded(
+                        child: _buildQuickAccessPanel(),
+                      ),
+                    ],
+                  );
+                }
+              },
             ),
             const SizedBox(height: 48),
 
             // Meeting Minutes List
-            Text('MEETING MINUTES', style: ClubOsTheme.lightTheme.textTheme.headlineSmall?.copyWith(fontSize: 14)),
+            Text('MEETING MINUTES', style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 14)),
             const SizedBox(height: 16),
             _buildBentoCard(
               child: Column(
@@ -99,29 +100,57 @@ class ArchivesScreen extends StatelessWidget {
             const SizedBox(height: 48),
 
             // Archive Health
-            _buildBentoCard(
-              child: Row(
-                children: [
-                  const Expanded(
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final bool useVertical = constraints.maxWidth < 600;
+                final healthTitle = Text('ARCHIVE HEALTH', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1, color: ClubOsTheme.onSurfaceVariant));
+                final healthValue = const Text('98%', style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold));
+                final backupStatus = Text('AUTOMATIC BACKUPS ACTIVE', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: ClubOsTheme.primaryCommand));
+                final infoText = Text(
+                  'All documents are cryptographically signed and immutable via the Blockchain verification layer.',
+                  style: TextStyle(fontSize: 12, color: ClubOsTheme.onSurfaceVariant.withOpacity(0.7)),
+                );
+
+                if (useVertical) {
+                  return _buildBentoCard(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('ARCHIVE HEALTH', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1, color: ClubOsTheme.onSurfaceVariant)),
-                        SizedBox(height: 12),
-                        Text('98%', style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
-                        SizedBox(height: 8),
-                        Text('AUTOMATIC BACKUPS ACTIVE', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: ClubOsTheme.primaryCommand)),
+                        healthTitle,
+                        const SizedBox(height: 12),
+                        healthValue,
+                        const SizedBox(height: 8),
+                        backupStatus,
+                        const SizedBox(height: 16),
+                        infoText,
                       ],
                     ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      'All documents are cryptographically signed and immutable via the Blockchain verification layer.',
-                      style: TextStyle(fontSize: 12, color: ClubOsTheme.onSurfaceVariant.withOpacity(0.7)),
+                  );
+                } else {
+                  return _buildBentoCard(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              healthTitle,
+                              const SizedBox(height: 12),
+                              healthValue,
+                              const SizedBox(height: 8),
+                              backupStatus,
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 24),
+                        Expanded(
+                          child: infoText,
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
+                  );
+                }
+              },
             ),
           ],
         ),
@@ -130,13 +159,8 @@ class ArchivesScreen extends StatelessWidget {
   }
 
   Widget _buildBentoCard({required Widget child}) {
-    return Container(
+    return NeonCard(
       padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: ClubOsTheme.solarSurfaceLowest,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: ClubOsTheme.outlineVariant.withOpacity(0.1)),
-      ),
       child: child,
     );
   }
@@ -164,13 +188,13 @@ class ArchivesScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 4),
-          Text(desc, style: const TextStyle(fontSize: 12, color: ClubOsTheme.onSurfaceVariant)),
+          Text(desc, style: TextStyle(fontSize: 12, color: ClubOsTheme.onSurfaceVariant)),
           const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(meta, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: ClubOsTheme.onSurfaceVariant)),
-              const Icon(Icons.download, size: 16, color: ClubOsTheme.primaryCommand),
+              Text(meta, style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: ClubOsTheme.onSurfaceVariant)),
+              Icon(Icons.download, size: 16, color: ClubOsTheme.primaryCommand),
             ],
           ),
         ],
@@ -194,21 +218,57 @@ class ArchivesScreen extends StatelessWidget {
   Widget _buildMinuteRow(String title, String date, String size) {
     return Row(
       children: [
-        const Icon(Icons.article, color: ClubOsTheme.onSurfaceVariant),
+        Icon(Icons.article, color: ClubOsTheme.onSurfaceVariant),
         const SizedBox(width: 16),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-              Text(date, style: const TextStyle(fontSize: 11, color: ClubOsTheme.onSurfaceVariant)),
+              Text(date, style: TextStyle(fontSize: 11, color: ClubOsTheme.onSurfaceVariant)),
             ],
           ),
         ),
-        Text(size, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: ClubOsTheme.onSurfaceVariant)),
+        Text(size, style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: ClubOsTheme.onSurfaceVariant)),
         const SizedBox(width: 16),
         const Icon(Icons.chevron_right, size: 18),
       ],
+    );
+  }
+
+  Widget _buildQuickAccessPanel() {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: ClubOsTheme.isDark
+            ? ClubOsTheme.secondaryIntelligence.withOpacity(0.15)
+            : ClubOsTheme.secondaryIntelligence,
+        borderRadius: BorderRadius.circular(16),
+        border: ClubOsTheme.isDark
+            ? Border.all(color: ClubOsTheme.secondaryIntelligence.withOpacity(0.3))
+            : null,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('QUICK ACCESS', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, letterSpacing: 1.5, fontSize: 11)),
+          const SizedBox(height: 24),
+          _buildQuickLink('Member Onboarding Kit'),
+          _buildQuickLink('Annual Financial Report'),
+          _buildQuickLink('Emergency Protocols'),
+          const SizedBox(height: 24),
+          ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              backgroundColor: ClubOsTheme.isDark
+                  ? ClubOsTheme.secondaryIntelligence.withOpacity(0.2)
+                  : Colors.white.withOpacity(0.2),
+              foregroundColor: Colors.white,
+            ),
+            child: const Text('REQUEST NEW FILE'),
+          ),
+        ],
+      ),
     );
   }
 }

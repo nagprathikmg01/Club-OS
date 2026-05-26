@@ -8,6 +8,7 @@ class Task {
   final DateTime dueDate;
   final String clubId;
   final String? eventId;
+  final int xpReward;
 
   Task({
     required this.id,
@@ -19,6 +20,7 @@ class Task {
     required this.dueDate,
     required this.clubId,
     this.eventId,
+    this.xpReward = 100,
   });
 
   Map<String, dynamic> toMap() {
@@ -31,6 +33,7 @@ class Task {
       'dueDate': dueDate.toIso8601String(),
       'clubId': clubId,
       'eventId': eventId,
+      'xpReward': xpReward,
     };
   }
 
@@ -45,6 +48,7 @@ class Task {
       dueDate: map['dueDate'] != null ? DateTime.parse(map['dueDate']) : DateTime.now(),
       clubId: map['clubId'] ?? '',
       eventId: map['eventId'],
+      xpReward: map['xpReward'] ?? 100,
     );
   }
 
